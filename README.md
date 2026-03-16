@@ -1,16 +1,61 @@
-# React + Vite
+# Job Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based dashboard for tracking job applications and managing the job search process.
 
-Currently, two official plugins are available:
+## Purpose
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project is built as part of my frontend portfolio to demonstrate:
 
-## React Compiler
+- React component architecture
+- scalable project structure
+- TailwindCSS UI development
+- clean Git workflow
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React
+- Vite
+- Tailwind CSS
+- JavaScript
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Current Features
+
+- Dashboard page
+- Base layout structure
+  - Sidebar
+  - Header
+  - Main layout
+
+## Planned Features
+
+- Job application tracker
+- Dashboard statistics
+- Job cards
+- Application status tracking
+- Filtering and search
+
+## Project Structure
+
+src
+components
+layout
+Sidebar.jsx
+Header.jsx
+MainLayout.jsx
+
+pages
+DashboardPage.jsx
+
+hooks
+services
+store
+utils
+data
+
+App.jsx
+main.jsx
+
+## Status
+
+Project setup and base layout completed.
+More dashboard features coming soon.

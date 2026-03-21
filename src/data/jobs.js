@@ -20,6 +20,13 @@ const jobs = [
     status: "Rejected",
     location: "Vancouver",
   },
+  {
+    id: 4,
+    company: "MicroSoft",
+    position: "Frontend Developer",
+    status: "Offer",
+    location: "Vancouver",
+  },
 ];
 
 export default jobs;

@@ -1,12 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function AddJobForm({ onAddJob, onClose }) {
+function AddJobForm({ onAddJob, onUpdateJob, onClose, editingJob }) {
   const [formData, setFormData] = useState({
     company: "",
     position: "",
     status: "Applied",
     location: "",
   });
+
+  useEffect(() => {
+    if (editingJob) {
+      setFormData({
+        company: editingJob.company,
+        position: editingJob.position,
+        status: editingJob.status,
+        location: editingJob.location,
+      });
+      return;
+    }
+
+    setFormData({
+      company: "",
+      position: "",
+      status: "Applied",
+      location: "",
+    });
+  }, [editingJob]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -25,6 +44,20 @@ function AddJobForm({ onAddJob, onClose }) {
     const trimmedLocation = formData.location.trim();
 
     if (!trimmedCompany || !trimmedPosition || !trimmedLocation) {
+      return;
+    }
+
+    if (editingJob) {
+      const updatedJob = {
+        ...editingJob,
+        company: trimmedCompany,
+        position: trimmedPosition,
+        status: formData.status,
+        location: trimmedLocation,
+      };
+
+      onUpdateJob(updatedJob);
+      onClose();
       return;
     }
 
@@ -48,15 +81,19 @@ function AddJobForm({ onAddJob, onClose }) {
     onClose();
   }
 
+  const isEditing = Boolean(editingJob);
+
   return (
     <section className="rounded-2xl border bg-white p-6 shadow-sm">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold text-gray-900">
-            Add New Application
+            {isEditing ? "Edit Application" : "Add New Application"}
           </h3>
           <p className="mt-1 text-sm text-gray-500">
-            Add a new job application to your dashboard.
+            {isEditing
+              ? "Update the details of your selected job application."
+              : "Add a new job application to your dashboard."}
           </p>
         </div>
 
@@ -70,7 +107,7 @@ function AddJobForm({ onAddJob, onClose }) {
       </div>
 
       <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2">
-        <div className="md:col-span-1">
+        <div>
           <label
             htmlFor="company"
             className="mb-1.5 block text-sm font-medium text-gray-700"
@@ -88,7 +125,7 @@ function AddJobForm({ onAddJob, onClose }) {
           />
         </div>
 
-        <div className="md:col-span-1">
+        <div>
           <label
             htmlFor="position"
             className="mb-1.5 block text-sm font-medium text-gray-700"
@@ -158,7 +195,7 @@ function AddJobForm({ onAddJob, onClose }) {
             type="submit"
             className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800"
           >
-            Add Job
+            {isEditing ? "Save Changes" : "Add Job"}
           </button>
         </div>
       </form>

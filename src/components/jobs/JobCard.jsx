@@ -1,6 +1,14 @@
 import StatusBadge from "./StatusBadge";
 
-function JobCard({ id, company, position, status, location, onDelete }) {
+function JobCard({
+  id,
+  company,
+  position,
+  status,
+  location,
+  onDelete,
+  onEdit,
+}) {
   return (
     <article className="rounded-2xl border bg-white p-6 shadow-sm transition hover:shadow-md">
       <div className="flex items-start justify-between gap-4">
@@ -15,13 +23,25 @@ function JobCard({ id, company, position, status, location, onDelete }) {
         <div className="flex shrink-0 flex-col items-end gap-3">
           <StatusBadge status={status} />
 
-          <button
-            type="button"
-            onClick={() => onDelete(id)}
-            className="rounded-lg border px-3 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-100"
-          >
-            Delete
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                onEdit({ id, company, position, status, location })
+              }
+              className="rounded-lg border px-3 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-100"
+            >
+              Edit
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onDelete(id)}
+              className="rounded-lg border px-3 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-100"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </article>

@@ -20,6 +20,7 @@ function DashboardPage() {
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingJob, setEditingJob] = useState(null);
 
   const filterOptions = ["All", "Applied", "Interview", "Offer", "Rejected"];
 
@@ -31,13 +32,35 @@ function DashboardPage() {
     setJobList((prev) => [newJob, ...prev]);
   }
 
+  function handleUpdateJob(updatedJob) {
+    setJobList((prev) =>
+      prev.map((job) => (job.id === updatedJob.id ? updatedJob : job)),
+    );
+    setEditingJob(null);
+  }
+
   function handleDeleteJob(jobId) {
     setJobList((prev) => prev.filter((job) => job.id !== jobId));
+
+    if (editingJob && editingJob.id === jobId) {
+      setEditingJob(null);
+      setIsFormOpen(false);
+    }
   }
 
   function handleResetFilters() {
     setSelectedStatus("All");
     setSearchTerm("");
+  }
+
+  function handleStartEdit(job) {
+    setEditingJob(job);
+    setIsFormOpen(true);
+  }
+
+  function handleCloseForm() {
+    setIsFormOpen(false);
+    setEditingJob(null);
   }
 
   const dashboardStats = useMemo(() => {
@@ -122,10 +145,18 @@ function DashboardPage() {
 
             <button
               type="button"
-              onClick={() => setIsFormOpen((prev) => !prev)}
+              onClick={() => {
+                if (isFormOpen && !editingJob) {
+                  handleCloseForm();
+                  return;
+                }
+
+                setEditingJob(null);
+                setIsFormOpen((prev) => !prev);
+              }}
               className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800"
             >
-              {isFormOpen ? "Close Form" : "Add New Job"}
+              {isFormOpen && !editingJob ? "Close Form" : "Add New Job"}
             </button>
           </div>
         </section>
@@ -133,7 +164,9 @@ function DashboardPage() {
         {isFormOpen && (
           <AddJobForm
             onAddJob={handleAddJob}
-            onClose={() => setIsFormOpen(false)}
+            onUpdateJob={handleUpdateJob}
+            onClose={handleCloseForm}
+            editingJob={editingJob}
           />
         )}
 
@@ -210,6 +243,7 @@ function DashboardPage() {
                   status={job.status}
                   location={job.location}
                   onDelete={handleDeleteJob}
+                  onEdit={handleStartEdit}
                 />
               ))}
             </div>

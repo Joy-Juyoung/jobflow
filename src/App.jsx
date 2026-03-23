@@ -6,7 +6,14 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import useJobs from "./hooks/useJobs";
 
 function App() {
-  const { jobList, dashboardStats, addJob, updateJob, deleteJob } = useJobs();
+  const {
+    jobList,
+    dashboardStats,
+    analyticsSummary,
+    addJob,
+    updateJob,
+    deleteJob,
+  } = useJobs();
 
   return (
     <MainLayout>
@@ -36,9 +43,7 @@ function App() {
 
         <Route
           path="/analytics"
-          element={
-            <AnalyticsPage jobList={jobList} dashboardStats={dashboardStats} />
-          }
+          element={<AnalyticsPage analyticsSummary={analyticsSummary} />}
         />
 
         <Route path="*" element={<Navigate to="/" replace />} />

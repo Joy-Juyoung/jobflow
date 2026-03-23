@@ -30,57 +30,70 @@ function useJobs() {
     setJobList((prev) => prev.filter((job) => job.id !== jobId));
   }
 
-  const dashboardStats = useMemo(() => {
+  const analyticsSummary = useMemo(() => {
     const totalApplications = jobList.length;
-
-    const interviews = jobList.filter(
+    const pendingCount = jobList.filter(
+      (job) => job.status === "Applied",
+    ).length;
+    const interviewCount = jobList.filter(
       (job) => job.status === "Interview",
     ).length;
-
-    const offers = jobList.filter((job) => job.status === "Offer").length;
-
-    const responseStatuses = ["Interview", "Offer", "Rejected"];
-
-    const responses = jobList.filter((job) =>
-      responseStatuses.includes(job.status),
+    const offerCount = jobList.filter((job) => job.status === "Offer").length;
+    const rejectedCount = jobList.filter(
+      (job) => job.status === "Rejected",
     ).length;
+
+    const responses = interviewCount + offerCount + rejectedCount;
 
     const responseRate =
       totalApplications === 0
         ? "0%"
         : `${Math.round((responses / totalApplications) * 100)}%`;
 
+    return {
+      totalApplications,
+      pendingCount,
+      interviewCount,
+      offerCount,
+      rejectedCount,
+      responses,
+      responseRate,
+    };
+  }, [jobList]);
+
+  const dashboardStats = useMemo(() => {
     return [
       {
         id: 1,
         label: "Applications Sent",
-        value: totalApplications,
+        value: analyticsSummary.totalApplications,
         description: "Total applications submitted",
       },
       {
         id: 2,
         label: "Interviews",
-        value: interviews,
+        value: analyticsSummary.interviewCount,
         description: "Interview stages in progress",
       },
       {
         id: 3,
         label: "Offers",
-        value: offers,
+        value: analyticsSummary.offerCount,
         description: "Current offers received",
       },
       {
         id: 4,
-        label: "Response Rate",
-        value: responseRate,
-        description: "Replies from submitted applications",
+        label: "Responses",
+        value: analyticsSummary.responses,
+        description: "Applications that received a response",
       },
     ];
-  }, [jobList]);
+  }, [analyticsSummary]);
 
   return {
     jobList,
     dashboardStats,
+    analyticsSummary,
     addJob,
     updateJob,
     deleteJob,

@@ -32,6 +32,10 @@ function DashboardPage() {
     setJobList((prev) => [newJob, ...prev]);
   }
 
+  function handleDeleteJob(jobId) {
+    setJobList((prev) => prev.filter((job) => job.id !== jobId));
+  }
+
   const filteredJobs = useMemo(() => {
     return jobList.filter((job) => {
       const matchesStatus =
@@ -113,10 +117,12 @@ function DashboardPage() {
               {filteredJobs.map((job) => (
                 <JobCard
                   key={job.id}
+                  id={job.id}
                   company={job.company}
                   position={job.position}
                   status={job.status}
                   location={job.location}
+                  onDelete={handleDeleteJob}
                 />
               ))}
             </div>

@@ -35,6 +35,11 @@ function DashboardPage() {
     setJobList((prev) => prev.filter((job) => job.id !== jobId));
   }
 
+  function handleResetFilters() {
+    setSelectedStatus("All");
+    setSearchTerm("");
+  }
+
   const dashboardStats = useMemo(() => {
     const totalApplications = jobList.length;
     const interviews = jobList.filter(
@@ -95,6 +100,8 @@ function DashboardPage() {
     });
   }, [jobList, selectedStatus, searchTerm]);
 
+  const totalVisibleJobs = filteredJobs.length;
+
   return (
     <MainLayout>
       <div className="space-y-6">
@@ -138,7 +145,13 @@ function DashboardPage() {
         <section className="space-y-4">
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              <h2 className="text-lg font-semibold">Recent Applications</h2>
+              <div>
+                <h2 className="text-lg font-semibold">Recent Applications</h2>
+                <p className="text-sm text-gray-500">
+                  Showing {totalVisibleJobs} application
+                  {totalVisibleJobs === 1 ? "" : "s"}
+                </p>
+              </div>
 
               <StatusFilter
                 options={filterOptions}
@@ -147,13 +160,35 @@ function DashboardPage() {
               />
             </div>
 
-            <input
-              type="text"
-              placeholder="Search by company or position"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              className="w-full rounded-xl border bg-white px-4 py-3 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-gray-400"
-            />
+            <div className="flex flex-col gap-3 md:flex-row">
+              <input
+                type="text"
+                placeholder="Search by company or position"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                className="w-full rounded-xl border bg-white px-4 py-3 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-gray-400"
+              />
+
+              <div className="flex gap-2">
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchTerm("")}
+                    className="rounded-lg border bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100"
+                  >
+                    Clear Search
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="rounded-lg border bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            </div>
           </div>
 
           {filteredJobs.length > 0 ? (

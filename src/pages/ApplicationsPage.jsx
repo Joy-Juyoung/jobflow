@@ -81,17 +81,12 @@ function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
           <button
             type="button"
             onClick={() => {
-              if (isFormOpen && !editingJob) {
-                handleCloseForm();
-                return;
-              }
-
               setEditingJob(null);
-              setIsFormOpen((prev) => !prev);
+              setIsFormOpen(true);
             }}
             className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-gray-800"
           >
-            {isFormOpen && !editingJob ? "Close Form" : "Add New Job"}
+            Add New Job
           </button>
         </div>
       </section>

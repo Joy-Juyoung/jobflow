@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { HiOutlineXMark } from "react-icons/hi2";
 
 function AddJobForm({ onAddJob, onUpdateJob, onClose, editingJob }) {
   const [formData, setFormData] = useState({
@@ -84,8 +85,8 @@ function AddJobForm({ onAddJob, onUpdateJob, onClose, editingJob }) {
   const isEditing = Boolean(editingJob);
 
   return (
-    <section className="rounded-2xl border bg-white p-6 shadow-sm">
-      <div className="mb-6 flex items-center justify-between">
+    <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+      <div className="mb-6 flex items-start justify-between gap-4">
         <div>
           <h3 className="text-lg font-semibold text-gray-900">
             {isEditing ? "Edit Application" : "Add New Application"}
@@ -100,9 +101,11 @@ function AddJobForm({ onAddJob, onUpdateJob, onClose, editingJob }) {
         <button
           type="button"
           onClick={onClose}
-          className="rounded-lg px-3 py-2 text-sm text-gray-500 transition hover:bg-gray-100"
+          className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
+          aria-label="Close form"
+          title="Close"
         >
-          Close
+          <HiOutlineXMark className="h-5 w-5" />
         </button>
       </div>
 

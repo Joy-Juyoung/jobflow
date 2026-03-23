@@ -4,16 +4,9 @@ import StatCard from "../components/jobs/StatCard";
 import JobCard from "../components/jobs/JobCard";
 import StatusFilter from "../components/jobs/StatusFilter";
 import AddJobForm from "../components/jobs/AddJobForm";
-import dashboardStats from "../data/dashboardStats";
 import initialJobs from "../data/jobs";
 
 function DashboardPage() {
-  const [selectedStatus, setSelectedStatus] = useState("All");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isFormOpen, setIsFormOpen] = useState(false);
-
-  const filterOptions = ["All", "Applied", "Interview", "Offer", "Rejected"];
-
   const [jobList, setJobList] = useState(() => {
     const savedJobs = localStorage.getItem("jobs");
 
@@ -23,6 +16,12 @@ function DashboardPage() {
 
     return initialJobs;
   });
+
+  const [selectedStatus, setSelectedStatus] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const filterOptions = ["All", "Applied", "Interview", "Offer", "Rejected"];
 
   useEffect(() => {
     localStorage.setItem("jobs", JSON.stringify(jobList));
@@ -35,6 +34,51 @@ function DashboardPage() {
   function handleDeleteJob(jobId) {
     setJobList((prev) => prev.filter((job) => job.id !== jobId));
   }
+
+  const dashboardStats = useMemo(() => {
+    const totalApplications = jobList.length;
+    const interviews = jobList.filter(
+      (job) => job.status === "Interview",
+    ).length;
+    const offers = jobList.filter((job) => job.status === "Offer").length;
+
+    const responseStatuses = ["Interview", "Offer", "Rejected"];
+    const responses = jobList.filter((job) =>
+      responseStatuses.includes(job.status),
+    ).length;
+
+    const responseRate =
+      totalApplications === 0
+        ? "0%"
+        : `${Math.round((responses / totalApplications) * 100)}%`;
+
+    return [
+      {
+        id: 1,
+        label: "Applications Sent",
+        value: totalApplications,
+        description: "Total applications submitted",
+      },
+      {
+        id: 2,
+        label: "Interviews",
+        value: interviews,
+        description: "Interview stages in progress",
+      },
+      {
+        id: 3,
+        label: "Offers",
+        value: offers,
+        description: "Current offers received",
+      },
+      {
+        id: 4,
+        label: "Response Rate",
+        value: responseRate,
+        description: "Replies from submitted applications",
+      },
+    ];
+  }, [jobList]);
 
   const filteredJobs = useMemo(() => {
     return jobList.filter((job) => {

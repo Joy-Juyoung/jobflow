@@ -182,7 +182,7 @@ npm run dev
 
 ## 🌐 Deployment
 
-Live demo: coming soon
+Live demo: https://job-dashboard-steel-five.vercel.app/
 
 ---
 

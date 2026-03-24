@@ -6,6 +6,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import { formatDate } from "../utils/formatDate";
 
 function AnalyticsPage({ analyticsSummary }) {
   const {
@@ -16,6 +17,9 @@ function AnalyticsPage({ analyticsSummary }) {
     rejectedCount,
     responses,
     responseRate,
+    latestAppliedDate,
+    latestInterviewDate,
+    latestOfferDate,
   } = analyticsSummary;
 
   const statusChartData = [
@@ -29,7 +33,7 @@ function AnalyticsPage({ analyticsSummary }) {
 
   return (
     <div className="space-y-8">
-      <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border bg-white p-6 shadow-sm">
         <p className="text-sm font-medium text-gray-500">Insights Overview</p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
           Analytics
@@ -41,7 +45,7 @@ function AnalyticsPage({ analyticsSummary }) {
       </section>
 
       <section className="grid gap-4 md:grid-cols-2">
-        <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <article className="rounded-2xl border bg-white p-6 shadow-sm">
           <p className="text-sm font-medium text-gray-500">
             Total Applications
           </p>
@@ -53,7 +57,7 @@ function AnalyticsPage({ analyticsSummary }) {
           </p>
         </article>
 
-        <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <article className="rounded-2xl border bg-white p-6 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Response Rate</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
             {responseRate}
@@ -65,7 +69,7 @@ function AnalyticsPage({ analyticsSummary }) {
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <article className="rounded-2xl border bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900">
             Status Distribution
           </h2>
@@ -98,7 +102,7 @@ function AnalyticsPage({ analyticsSummary }) {
           </div>
         </article>
 
-        <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <article className="rounded-2xl border bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900">
             Status Breakdown
           </h2>
@@ -138,8 +142,8 @@ function AnalyticsPage({ analyticsSummary }) {
         </article>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-2">
-        <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <section className="grid gap-4 lg:grid-cols-2">
+        <article className="rounded-2xl border bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900">
             Response Insight
           </h2>
@@ -168,10 +172,36 @@ function AnalyticsPage({ analyticsSummary }) {
           </div>
         </article>
 
-        <article className="rounded-2xl border border-gray-300 border-dashed bg-gray-50 p-6 text-sm text-gray-500 shadow-sm">
-          This analytics view can be extended later with more advanced charts,
-          such as monthly application trends, company distribution, or outcome
-          comparisons over time.
+        <article className="rounded-2xl border bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-gray-900">
+            Timeline Highlights
+          </h2>
+          <p className="mt-1 text-sm text-gray-500">
+            Recent milestone dates from your application activity
+          </p>
+
+          <div className="mt-6 space-y-3">
+            <div className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3">
+              <span className="text-sm text-gray-600">Latest Application</span>
+              <span className="text-sm font-semibold text-gray-900">
+                {latestAppliedDate ? formatDate(latestAppliedDate) : "—"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3">
+              <span className="text-sm text-gray-600">Latest Interview</span>
+              <span className="text-sm font-semibold text-gray-900">
+                {latestInterviewDate ? formatDate(latestInterviewDate) : "—"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3">
+              <span className="text-sm text-gray-600">Latest Offer</span>
+              <span className="text-sm font-semibold text-gray-900">
+                {latestOfferDate ? formatDate(latestOfferDate) : "—"}
+              </span>
+            </div>
+          </div>
         </article>
       </section>
     </div>

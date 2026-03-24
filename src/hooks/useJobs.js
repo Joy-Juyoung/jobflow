@@ -1,6 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import initialJobs from "../data/jobs";
 
+function getLatestDate(dateList) {
+  const validDates = dateList.filter(Boolean);
+
+  if (validDates.length === 0) {
+    return "";
+  }
+
+  return validDates.sort((a, b) => new Date(b) - new Date(a))[0];
+}
+
 function useJobs() {
   const [jobList, setJobList] = useState(() => {
     const savedJobs = localStorage.getItem("jobs");
@@ -50,6 +60,16 @@ function useJobs() {
         ? "0%"
         : `${Math.round((responses / totalApplications) * 100)}%`;
 
+    const latestAppliedDate = getLatestDate(
+      jobList.map((job) => job.appliedDate),
+    );
+
+    const latestInterviewDate = getLatestDate(
+      jobList.map((job) => job.interviewDate),
+    );
+
+    const latestOfferDate = getLatestDate(jobList.map((job) => job.offerDate));
+
     return {
       totalApplications,
       pendingCount,
@@ -58,6 +78,9 @@ function useJobs() {
       rejectedCount,
       responses,
       responseRate,
+      latestAppliedDate,
+      latestInterviewDate,
+      latestOfferDate,
     };
   }, [jobList]);
 
@@ -65,7 +88,7 @@ function useJobs() {
     return [
       {
         id: 1,
-        label: "Applications Sent",
+        label: "Applications",
         value: analyticsSummary.totalApplications,
         description: "Total applications submitted",
       },

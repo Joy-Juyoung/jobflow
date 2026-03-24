@@ -1,17 +1,7 @@
-import StatusBadge from "./StatusBadge";
 import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
-
-function formatDate(dateString) {
-  if (!dateString) return "";
-
-  const date = new Date(dateString);
-
-  return date.toLocaleDateString("en-CA", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
+import JobSummary from "./JobSummary";
+import StatusBadge from "./StatusBadge";
+import { formatDate } from "../../utils/formatDate";
 
 function ApplicationRow({
   id,
@@ -26,7 +16,7 @@ function ApplicationRow({
   onEdit,
   onDelete,
 }) {
-  const statusDateLabel =
+  const secondaryLabel =
     status === "Interview"
       ? interviewDate
         ? `Interview: ${formatDate(interviewDate)}`
@@ -44,19 +34,13 @@ function ApplicationRow({
   return (
     <article className="rounded-2xl border border-gray-200 bg-white px-5 py-4 transition-shadow duration-200 hover:shadow-sm">
       <div className="flex items-center justify-between gap-4">
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium text-gray-500">{company}</p>
-
-          <h3 className="truncate text-lg font-semibold text-gray-900">
-            {position}
-          </h3>
-
-          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500">
-            <span>{location}</span>
-            {appliedDate && <span>Applied: {formatDate(appliedDate)}</span>}
-            {statusDateLabel && <span>{statusDateLabel}</span>}
-          </div>
-        </div>
+        <JobSummary
+          company={company}
+          position={position}
+          location={location}
+          appliedDate={appliedDate}
+          secondaryLabel={secondaryLabel}
+        />
 
         <div className="flex items-center gap-3">
           <StatusBadge status={status} />

@@ -1,16 +1,5 @@
 import StatusBadge from "./StatusBadge";
-
-function formatDate(dateString) {
-  if (!dateString) return "";
-
-  const date = new Date(dateString);
-
-  return date.toLocaleDateString("en-CA", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
+import JobSummary from "./JobSummary";
 
 function JobCard({
   id,
@@ -26,19 +15,12 @@ function JobCard({
   return (
     <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md">
       <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <p className="text-sm font-medium text-gray-500">{company}</p>
-          <h3 className="mt-1 text-lg font-semibold text-gray-900">
-            {position}
-          </h3>
-          <p className="mt-2 text-sm text-gray-500">{location}</p>
-
-          {appliedDate && (
-            <p className="mt-1 text-xs text-gray-500">
-              Applied: {formatDate(appliedDate)}
-            </p>
-          )}
-        </div>
+        <JobSummary
+          company={company}
+          position={position}
+          location={location}
+          appliedDate={appliedDate}
+        />
 
         <div className="flex shrink-0 flex-col items-end gap-3">
           <StatusBadge status={status} />

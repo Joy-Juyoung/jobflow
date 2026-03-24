@@ -1,20 +1,23 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import AddJobForm from "../components/jobs/AddJobForm";
-import ApplicationsControls from "../components/jobs/ApplicationsControls";
 import ApplicationRow from "../components/jobs/ApplicationRow";
+import ApplicationsControls from "../components/jobs/ApplicationsControls";
+import useApplicationFilters from "../hooks/useApplicationFilters";
 
 function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
-  const [selectedStatus, setSelectedStatus] = useState("All");
-  const [searchTerm, setSearchTerm] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
 
-  const filterOptions = ["All", "Applied", "Interview", "Offer", "Rejected"];
-
-  function handleResetFilters() {
-    setSelectedStatus("All");
-    setSearchTerm("");
-  }
+  const {
+    selectedStatus,
+    setSelectedStatus,
+    searchTerm,
+    setSearchTerm,
+    filterOptions,
+    filteredJobs,
+    totalVisibleJobs,
+    resetFilters,
+  } = useApplicationFilters(jobList);
 
   function handleStartEdit(job) {
     setEditingJob(job);
@@ -43,23 +46,6 @@ function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
       setIsFormOpen(false);
     }
   }
-
-  const filteredJobs = useMemo(() => {
-    return jobList.filter((job) => {
-      const matchesStatus =
-        selectedStatus === "All" || job.status === selectedStatus;
-
-      const normalizedSearchTerm = searchTerm.toLowerCase().trim();
-
-      const matchesSearch =
-        job.company.toLowerCase().includes(normalizedSearchTerm) ||
-        job.position.toLowerCase().includes(normalizedSearchTerm);
-
-      return matchesStatus && matchesSearch;
-    });
-  }, [jobList, selectedStatus, searchTerm]);
-
-  const totalVisibleJobs = filteredJobs.length;
 
   return (
     <div className="space-y-8">
@@ -110,7 +96,7 @@ function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           onClearSearch={() => setSearchTerm("")}
-          onResetFilters={handleResetFilters}
+          onResetFilters={resetFilters}
         />
 
         {filteredJobs.length > 0 ? (

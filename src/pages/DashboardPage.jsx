@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
-import AddJobForm from "../components/jobs/AddJobForm";
-import JobCard from "../components/jobs/JobCard";
-import StatCard from "../components/jobs/StatCard";
 import { useState } from "react";
-import { HiArrowRight } from "react-icons/hi";
+import AddJobForm from "../components/jobs/AddJobForm";
+import StatCard from "../components/jobs/StatCard";
+import RecentApplicationsSection from "../components/dashboard/RecentApplicationsSection";
 
 function DashboardPage({ jobList, dashboardStats, onAddJob }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const recentJobs = jobList.slice(0, 4);
+  const recentJobs = jobList.slice(0, 5);
 
   function handleCloseForm() {
     setIsFormOpen(false);
@@ -62,47 +60,7 @@ function DashboardPage({ jobList, dashboardStats, onAddJob }) {
         ))}
       </section>
 
-      <section className="space-y-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-semibold text-gray-900">
-              Recent Applications
-            </h2>
-            <p className="text-sm text-gray-500">
-              Showing the 4 most recent job applications
-            </p>
-          </div>
-
-          <Link
-            to="/applications"
-            className="group inline-flex items-center gap-1 text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
-          >
-            Go to Applications
-            <HiArrowRight className="h-4 w-4 transform transition-transform duration-200 ease-out group-hover:translate-x-1" />
-          </Link>
-        </div>
-
-        {recentJobs.length > 0 ? (
-          <div className="grid gap-4 md:grid-cols-2">
-            {recentJobs.map((job) => (
-              <JobCard
-                key={job.id}
-                id={job.id}
-                company={job.company}
-                position={job.position}
-                status={job.status}
-                location={job.location}
-                appliedDate={job.appliedDate}
-                showActions={false}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-2xl border border-dashed bg-gray-50 p-8 text-center text-sm text-gray-500">
-            No recent applications yet.
-          </div>
-        )}
-      </section>
+      <RecentApplicationsSection recentJobs={recentJobs} />
     </div>
   );
 }

@@ -43,6 +43,7 @@ function DashboardPage({ jobList, dashboardStats, onAddJob }) {
 
       {isFormOpen && (
         <AddJobForm
+          key="dashboard-new-job"
           onAddJob={onAddJob}
           onUpdateJob={() => {}}
           onClose={handleCloseForm}
@@ -91,6 +92,7 @@ function DashboardPage({ jobList, dashboardStats, onAddJob }) {
                 position={job.position}
                 status={job.status}
                 location={job.location}
+                appliedDate={job.appliedDate}
                 showActions={false}
               />
             ))}

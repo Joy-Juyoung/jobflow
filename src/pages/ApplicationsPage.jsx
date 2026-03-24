@@ -93,6 +93,7 @@ function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
 
       {isFormOpen && (
         <AddJobForm
+          key={editingJob ? editingJob.id : "new-job"}
           onAddJob={handleSubmitNewJob}
           onUpdateJob={handleSubmitUpdatedJob}
           onClose={handleCloseForm}
@@ -122,6 +123,10 @@ function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
                 position={job.position}
                 status={job.status}
                 location={job.location}
+                appliedDate={job.appliedDate}
+                interviewDate={job.interviewDate}
+                offerDate={job.offerDate}
+                rejectedDate={job.rejectedDate}
                 onDelete={handleDelete}
                 onEdit={handleStartEdit}
               />

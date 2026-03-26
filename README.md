@@ -126,8 +126,6 @@ job-dashboard/
 - backend middleware verifies token
 - userId attached to requests for data isolation
 
----
-
 ### 2. User-specific Data Handling
 
 Each job entry is linked to a user:
@@ -135,8 +133,6 @@ Each job entry is linked to a user:
 - users can only access their own data
 - backend queries filter by `userId`
 - prevents data leakage between accounts
-
----
 
 ### 3. Custom Hooks Architecture
 
@@ -146,8 +142,6 @@ Custom hooks manage logic separation:
 - `useApplicationFilters` → search, filter, sort
 - `useJobForm` → form state and validation
 
----
-
 ### 4. Derived State & Analytics
 
 Analytics are computed dynamically:
@@ -155,8 +149,6 @@ Analytics are computed dynamically:
 - response rate calculation
 - status breakdown
 - latest activity tracking
-
----
 
 ### 5. UI/UX Design Decisions
 
@@ -178,8 +170,6 @@ git clone https://github.com/Joy-Juyoung/job-dashboard.git
 cd job-dashboard
 ```
 
----
-
 ### 2. Install dependencies
 
 Frontend:
@@ -195,8 +185,6 @@ cd server
 npm install
 ```
 
----
-
 ### 3. Setup environment variables
 
 Create a `.env` file inside the `/server` directory:
@@ -206,8 +194,6 @@ MONGO_URI=your_mongodb_connection
 JWT_SECRET=your_secret_key
 PORT=5000
 ```
-
----
 
 ### 3. Run the application
 
@@ -224,18 +210,15 @@ Frontend
 npm run dev
 ```
 
----
-
 ### 5. Open in **browser**
 
 ```bash
 http://localhost:5173
 ```
 
----
-
 ```md
 You can create a new account using the registration page.
+```
 
 ---
 
@@ -259,4 +242,3 @@ Live demo: https://job-dashboard-steel-five.vercel.app/
 Juyoung Lee (Joy)
 
 GitHub: https://github.com/Joy-Juyoung
-```

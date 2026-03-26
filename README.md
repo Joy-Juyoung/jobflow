@@ -1,49 +1,76 @@
-# Job Dashboard
+# JobFlow
 
-A frontend job application tracking dashboard built with React and Tailwind CSS.
+A full-stack job application tracking system built with React, Node.js, Express, and MongoDB.
 
-This project was built to practice building a real-world frontend application with clean architecture, reusable components, and thoughtful UI/UX design.
+JobFlow allows users to manage their job search efficiently with authentication, user-specific data, and a clean dashboard experience.
 
 ---
 
 ## 🔍 Overview
 
-Job Dashboard allows users to:
+JobFlow is designed to simulate a real-world product dashboard where users can:
 
-- track job applications
-- manage application status
-- filter and search records
-- review application progress through analytics
+- manage job applications
+- track progress across different stages
+- analyze response rates
+- securely store personal job data
 
-The goal of this project was to simulate a real product dashboard and improve frontend development skills beyond simple UI cloning.
+This project focuses on building a production-like full-stack application with proper architecture, authentication, and user experience considerations.
 
 ---
 
 ## ✨ Features
 
-### Dashboard
+### 🔐 Authentication & Security
+
+- JWT-based login and registration
+- protected routes (frontend + backend)
+- user-specific data isolation
+- token-based API requests
+
+---
+
+### 📊 Dashboard
 
 - application summary cards
+- response tracking
 - recent applications preview
 - quick access to add new job form
 
-### Applications
+---
+
+### 📁 Applications Management
 
 - add, edit, and delete job applications
-- filter by status (Applied, Interview, Offer, Rejected)
-- search by company or position
-- reset filters
-- responsive list-based management UI
+- status tracking (Applied, Interview, Offer, Rejected)
+- search across company, position, and notes
+- filter and sort functionality
+- notes support for additional context
+- empty state handling
 
-### Analytics
+---
 
-- application status breakdown
+### 📈 Analytics
+
+- application breakdown by status
 - response count and response rate
-- visual chart representation using Recharts
+- dynamically derived data from job list
+
+---
+
+### 🎯 UX Improvements
+
+- password visibility toggle
+- inline search clearing
+- responsive layout
+- clean and consistent UI hierarchy
+- safe handling of missing data (optional chaining)
 
 ---
 
 ## 🛠 Tech Stack
+
+### Frontend
 
 - React
 - Vite
@@ -51,132 +78,164 @@ The goal of this project was to simulate a real product dashboard and improve fr
 - React Router DOM
 - Recharts
 - React Icons
-- localStorage
+
+### Backend
+
+- Node.js
+- Express
+
+### Database
+
+- MongoDB Atlas
+
+### Authentication
+
+- JSON Web Tokens (JWT)
 
 ---
 
 ## 📁 Project Structure
 
 ```bash
-src/
-  components/
-    layout/
-      Header.jsx
-      MainLayout.jsx
-      Sidebar.jsx
+job-dashboard/
+  server/
+    src/
+      models/
+      routes/
+      middleware/
 
-    jobs/
-      AddJobForm.jsx
-      ApplicationRow.jsx
-      ApplicationsControls.jsx
-      JobCard.jsx
-      StatCard.jsx
-      StatusBadge.jsx
-      StatusFilter.jsx
+  src/
+    components/
+      auth/
+      dashboard/
+      jobs/
+      layout/
 
-  data/
-    jobs.js
-
-  hooks/
-    useJobs.js
-
-  pages/
-    DashboardPage.jsx
-    ApplicationsPage.jsx
-    AnalyticsPage.jsx
-
-  App.jsx
-  main.jsx
+    hooks/
+    pages/
+    services/
+    utils/
 ```
 
 ## 🧠 Key Implementation Details
 
-### 1. Custom hook for state management
+### 1. Authentication Flow
 
-The `useJobs` hook centralizes:
-
-- job CRUD logic (add, update, delete)
-- localStorage persistence
-- dashboard summary calculations
-- analytics data generation
-
-This improves separation of concerns and keeps UI components clean.
+- JWT token stored in localStorage
+- protected routes on frontend
+- backend middleware verifies token
+- userId attached to requests for data isolation
 
 ---
 
-### 2. Component-based architecture
+### 2. User-specific Data Handling
 
-The UI is built using reusable components such as:
+Each job entry is linked to a user:
 
-- StatCard
-- ApplicationRow
-- StatusBadge
-- ApplicationsControls
-- AddJobForm
-
-This ensures scalability and consistency across the application.
+- users can only access their own data
+- backend queries filter by `userId`
+- prevents data leakage between accounts
 
 ---
 
-### 3. Page-based routing structure
+### 3. Custom Hooks Architecture
 
-The application is divided into:
+Custom hooks manage logic separation:
 
-- Dashboard (overview)
-- Applications (management)
-- Analytics (data insights)
-
-Each page has a clear responsibility, similar to real-world admin dashboards.
+- `useJobs` → CRUD + API integration
+- `useApplicationFilters` → search, filter, sort
+- `useJobForm` → form state and validation
 
 ---
 
-### 4. Derived analytics logic
+### 4. Derived State & Analytics
 
-Analytics data is calculated dynamically from the job list:
+Analytics are computed dynamically:
 
-- total applications
-- interviews, offers, rejections
-- pending applications
-- response rate
-
-This demonstrates data transformation and state-driven UI.
+- response rate calculation
+- status breakdown
+- latest activity tracking
 
 ---
 
-### 5. UI/UX considerations
+### 5. UI/UX Design Decisions
 
-- consistent button hierarchy (primary / secondary / actions)
-- minimal grayscale design with color reserved for status indicators
-- list-based layout for better management experience
-- responsive sidebar and mobile navigation
-- inline search clearing and filter UX improvements
-
----
-
-## 🚧 Future Improvements
-
-- backend API integration (REST)
-- authentication (login/signup)
-- persistent cloud database
-- form validation and error handling
-- sorting and pagination
-- confirmation modal for delete actions
+- minimal grayscale UI with clear hierarchy
+- status-based color indicators
+- form validation and error feedback
+- consistent interaction patterns
 
 ---
 
 ## ▶️ Getting Started
 
-### Install dependencies
+### 1. Clone the repository
+
+Frontend
+
+```bash
+git clone https://github.com/Joy-Juyoung/job-dashboard.git
+cd job-dashboard
+```
+
+---
+
+### 2. Install dependencies
+
+Frontend:
 
 ```bash
 npm install
 ```
 
-### Run the development server
+Backend:
+
+```bash
+cd server
+npm install
+```
+
+---
+
+### 3. Setup environment variables
+
+Create a `.env` file inside the `/server` directory:
+
+```bash
+MONGO_URI=your_mongodb_connection
+JWT_SECRET=your_secret_key
+PORT=5000
+```
+
+---
+
+### 3. Run the application
+
+Backend
+
+```bash
+cd server
+npm run dev
+```
+
+Frontend
 
 ```bash
 npm run dev
 ```
+
+---
+
+### 5. Open in **browser**
+
+```bash
+http://localhost:5173
+```
+
+---
+
+```md
+You can create a new account using the registration page.
 
 ---
 
@@ -186,8 +245,18 @@ Live demo: https://job-dashboard-steel-five.vercel.app/
 
 ---
 
+## 📌 Future Improvements
+
+- refresh token / auth persistence improvements
+- pagination for large datasets
+- better error handling UI
+- mobile UX optimization
+
+---
+
 ## 👤 Author
 
 Juyoung Lee (Joy)
 
 GitHub: https://github.com/Joy-Juyoung
+```

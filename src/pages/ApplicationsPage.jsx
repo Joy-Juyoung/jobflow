@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddJobForm from "../components/jobs/form/AddJobForm";
 import ApplicationRow from "../components/jobs/ApplicationRow";
 import ApplicationsControls from "../components/jobs/ApplicationsControls";
@@ -7,6 +7,7 @@ import useApplicationFilters from "../hooks/useApplicationFilters";
 function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
+  const formSectionRef = useRef(null);
 
   const {
     selectedStatus,
@@ -20,6 +21,15 @@ function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
     totalVisibleJobs,
     resetFilters,
   } = useApplicationFilters(jobList);
+
+  useEffect(() => {
+    if (isFormOpen && formSectionRef.current) {
+      formSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [isFormOpen, editingJob]);
 
   function handleStartEdit(job) {
     setEditingJob(job);
@@ -76,13 +86,15 @@ function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
       </section>
 
       {isFormOpen && (
-        <AddJobForm
-          key={editingJob ? editingJob.id : "new-job"}
-          onAddJob={handleSubmitNewJob}
-          onUpdateJob={handleSubmitUpdatedJob}
-          onClose={handleCloseForm}
-          editingJob={editingJob}
-        />
+        <div ref={formSectionRef} className="scroll-mt-24">
+          <AddJobForm
+            key={editingJob ? editingJob.id : "new-job"}
+            onAddJob={handleSubmitNewJob}
+            onUpdateJob={handleSubmitUpdatedJob}
+            onClose={handleCloseForm}
+            editingJob={editingJob}
+          />
+        </div>
       )}
 
       <section className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">

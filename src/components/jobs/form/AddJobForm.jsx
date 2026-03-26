@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { HiOutlineXMark } from "react-icons/hi2";
 import FormInput from "./FormInput";
 import FormDateInput from "./FormDateInput";
@@ -12,6 +13,8 @@ const statusOptions = [
 ];
 
 function AddJobForm({ onAddJob, onUpdateJob, onClose, editingJob }) {
+  const companyInputRef = useRef(null);
+
   const { formData, errors, isEditing, handleChange, handleSubmit } =
     useJobForm({
       editingJob,
@@ -19,6 +22,12 @@ function AddJobForm({ onAddJob, onUpdateJob, onClose, editingJob }) {
       onUpdateJob,
       onClose,
     });
+
+  useEffect(() => {
+    if (companyInputRef.current) {
+      companyInputRef.current.focus();
+    }
+  }, [editingJob]);
 
   return (
     <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
@@ -48,6 +57,7 @@ function AddJobForm({ onAddJob, onUpdateJob, onClose, editingJob }) {
       <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         <div className="grid gap-4 md:grid-cols-2">
           <FormInput
+            ref={companyInputRef}
             id="company"
             name="company"
             label="Company"

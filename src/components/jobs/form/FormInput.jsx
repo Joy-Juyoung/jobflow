@@ -1,13 +1,9 @@
-function FormInput({
-  id,
-  name,
-  label,
-  type = "text",
-  value,
-  onChange,
-  placeholder,
-  error,
-}) {
+import { forwardRef } from "react";
+
+const FormInput = forwardRef(function FormInput(
+  { id, name, label, type = "text", value, onChange, placeholder, error },
+  ref,
+) {
   const inputBaseClass =
     "w-full rounded-xl border bg-white px-4 py-3 text-sm text-gray-900 outline-none transition duration-200 placeholder:text-gray-400 focus:ring-2";
   const normalInputClass =
@@ -22,6 +18,7 @@ function FormInput({
       </label>
 
       <input
+        ref={ref}
         id={id}
         name={name}
         type={type}
@@ -36,6 +33,6 @@ function FormInput({
       {error && <p className="text-xs text-red-600">{error}</p>}
     </div>
   );
-}
+});
 
 export default FormInput;

@@ -117,6 +117,8 @@ job-dashboard/
     utils/
 ```
 
+---
+
 ## 🧠 Key Implementation Details
 
 ### 1. Authentication Flow

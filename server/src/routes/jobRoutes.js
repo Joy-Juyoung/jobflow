@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const router = express.Router();
 
 const Job = require("../models/Job");
+const authMiddleware = require("../middleware/authMiddleware");
 
 function handleMongooseError(error, res, fallbackMessage) {
   if (error.name === "ValidationError") {
@@ -15,22 +16,28 @@ function handleMongooseError(error, res, fallbackMessage) {
   return res.status(500).json({ message: fallbackMessage });
 }
 
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
-    const jobs = await Job.find().sort({ createdAt: -1 });
+    const jobs = await Job.find({ userId: req.user.userId }).sort({
+      createdAt: -1,
+    });
+
     res.status(200).json(jobs);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch jobs" });
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", authMiddleware, async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: "Invalid job id" });
     }
 
-    const job = await Job.findById(req.params.id);
+    const job = await Job.findOne({
+      _id: req.params.id,
+      userId: req.user.userId,
+    });
 
     if (!job) {
       return res.status(404).json({ message: "Job not found" });
@@ -42,25 +49,36 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   try {
-    const newJob = await Job.create(req.body);
+    const newJob = await Job.create({
+      ...req.body,
+      userId: req.user.userId,
+    });
+
     res.status(201).json(newJob);
   } catch (error) {
     handleMongooseError(error, res, "Failed to create job");
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", authMiddleware, async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: "Invalid job id" });
     }
 
-    const updatedJob = await Job.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const updatedJob = await Job.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        userId: req.user.userId,
+      },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
     if (!updatedJob) {
       return res.status(404).json({ message: "Job not found" });
@@ -72,13 +90,16 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: "Invalid job id" });
     }
 
-    const deletedJob = await Job.findByIdAndDelete(req.params.id);
+    const deletedJob = await Job.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user.userId,
+    });
 
     if (!deletedJob) {
       return res.status(404).json({ message: "Job not found" });

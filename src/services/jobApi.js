@@ -1,5 +1,14 @@
 const API_BASE_URL = "http://localhost:5000/api";
 
+function getAuthHeaders() {
+  const token = localStorage.getItem("token");
+
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+}
+
 function normalizeJob(job) {
   return {
     id: job._id,
@@ -15,7 +24,9 @@ function normalizeJob(job) {
 }
 
 export async function fetchJobs() {
-  const response = await fetch(`${API_BASE_URL}/jobs`);
+  const response = await fetch(`${API_BASE_URL}/jobs`, {
+    headers: getAuthHeaders(),
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch jobs");
@@ -28,9 +39,7 @@ export async function fetchJobs() {
 export async function createJob(jobData) {
   const response = await fetch(`${API_BASE_URL}/jobs`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(jobData),
   });
 
@@ -46,23 +55,23 @@ export async function createJob(jobData) {
 export async function updateJobApi(id, updatedData) {
   const response = await fetch(`${API_BASE_URL}/jobs/${id}`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(updatedData),
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    throw new Error("Failed to update job");
+    throw new Error(data.message || "Failed to update job");
   }
 
-  const updatedJob = await response.json();
-  return normalizeJob(updatedJob);
+  return normalizeJob(data);
 }
 
 export async function deleteJobApi(id) {
   const response = await fetch(`${API_BASE_URL}/jobs/${id}`, {
     method: "DELETE",
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {

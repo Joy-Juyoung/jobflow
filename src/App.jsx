@@ -1,8 +1,11 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 import DashboardPage from "./pages/DashboardPage";
 import ApplicationsPage from "./pages/ApplicationsPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import useJobs from "./hooks/useJobs";
 
 function App() {
@@ -16,21 +19,26 @@ function App() {
   } = useJobs();
 
   return (
-    <MainLayout>
-      <Routes>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <MainLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route
-          path="/"
+          index
           element={
-            <DashboardPage
-              jobList={jobList}
-              dashboardStats={dashboardStats}
-              onAddJob={addJob}
-            />
+            <DashboardPage jobList={jobList} dashboardStats={dashboardStats} />
           }
         />
-
         <Route
-          path="/applications"
+          path="applications"
           element={
             <ApplicationsPage
               jobList={jobList}
@@ -40,15 +48,14 @@ function App() {
             />
           }
         />
-
         <Route
-          path="/analytics"
+          path="analytics"
           element={<AnalyticsPage analyticsSummary={analyticsSummary} />}
         />
+      </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </MainLayout>
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }
 

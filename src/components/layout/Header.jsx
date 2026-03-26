@@ -1,8 +1,15 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HiOutlineMenu, HiOutlineHome } from "react-icons/hi";
 
 function Header({ setIsSidebarOpen }) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login", { replace: true });
+  }
 
   const pageLabels = {
     "/": "Dashboard",
@@ -33,14 +40,23 @@ function Header({ setIsSidebarOpen }) {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setIsSidebarOpen(true)}
-          className="rounded-lg p-2 text-gray-600 transition hover:bg-gray-100 lg:hidden"
-          aria-label="Open sidebar menu"
-        >
-          <HiOutlineMenu className="h-6 w-6" />
-        </button>
+        <div>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
+            Logout
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsSidebarOpen(true)}
+            className="rounded-lg p-2 text-gray-600 transition hover:bg-gray-100 lg:hidden"
+            aria-label="Open sidebar menu"
+          >
+            <HiOutlineMenu className="h-6 w-6" />
+          </button>
+        </div>
       </div>
     </header>
   );

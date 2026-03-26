@@ -30,6 +30,12 @@ function useJobs() {
 
   useEffect(() => {
     async function loadJobs() {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        return;
+      }
+
       try {
         const jobsFromApi = await fetchJobs();
         setJobList(jobsFromApi);

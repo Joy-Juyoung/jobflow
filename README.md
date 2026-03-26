@@ -8,14 +8,14 @@ JobFlow allows users to manage their job search efficiently with authentication,
 
 ## 🔍 Overview
 
-JobFlow is designed to simulate a real-world product dashboard where users can:
+JobFlow is designed to simulate a production-like job tracking product where users can:
 
-- manage job applications
-- track progress across different stages
-- analyze response rates
-- securely store personal job data
+- create and manage job applications
+- track progress across different application stages
+- view analytics such as response count and response rate
+- securely access only their own job data
 
-This project focuses on building a production-like full-stack application with proper architecture, authentication, and user experience considerations.
+This project focuses on building a realistic full-stack application with authentication, REST API integration, database persistence, and thoughtful UI/UX decisions.
 
 ---
 
@@ -23,30 +23,31 @@ This project focuses on building a production-like full-stack application with p
 
 ### 🔐 Authentication & Security
 
-- JWT-based login and registration
-- protected routes (frontend + backend)
+- JWT-based registration and login
+- protected routes on both frontend and backend
 - user-specific data isolation
-- token-based API requests
+- token-based authenticated API requests
+- password visibility toggle on auth forms
 
 ---
 
 ### 📊 Dashboard
 
 - application summary cards
-- response tracking
+- response tracking overview
 - recent applications preview
-- quick access to add new job form
+- clean empty states for new users
 
 ---
 
 ### 📁 Applications Management
 
 - add, edit, and delete job applications
-- status tracking (Applied, Interview, Offer, Rejected)
-- search across company, position, and notes
+- status tracking (`Applied`, `Interview`, `Offer`, `Rejected`)
+- search by company, position, and notes
 - filter and sort functionality
-- notes support for additional context
-- empty state handling
+- notes field for storing extra job-related context
+- form validation and status-based date handling
 
 ---
 
@@ -54,17 +55,18 @@ This project focuses on building a production-like full-stack application with p
 
 - application breakdown by status
 - response count and response rate
-- dynamically derived data from job list
+- derived analytics based on stored application data
 
 ---
 
-### 🎯 UX Improvements
+### 🎯 UX / UI
 
-- password visibility toggle
-- inline search clearing
-- responsive layout
-- clean and consistent UI hierarchy
-- safe handling of missing data (optional chaining)
+- responsive dashboard layout
+- reusable component-based architecture
+- consistent grayscale visual hierarchy
+- status-based color indicators
+- safe handling of missing data
+- mobile sidebar support
 
 ---
 
@@ -90,7 +92,13 @@ This project focuses on building a production-like full-stack application with p
 
 ### Authentication
 
-- JSON Web Tokens (JWT)
+- JSON Web Token (JWT)
+- bcryptjs
+
+### Deployment
+
+- Vercel (frontend)
+- Render (backend)
 
 ---
 
@@ -103,6 +111,7 @@ job-dashboard/
       models/
       routes/
       middleware/
+      server.js
 
   src/
     components/
@@ -110,54 +119,62 @@ job-dashboard/
       dashboard/
       jobs/
       layout/
-
     hooks/
     pages/
     services/
     utils/
+    App.jsx
+    main.jsx
 ```
 
 ---
 
 ## 🧠 Key Implementation Details
 
-### 1. Authentication Flow
+### 1. Authentication
 
-- JWT token stored in localStorage
-- protected routes on frontend
+- JWT-based login and registration
+- token stored in localStorage
+- protected routes (frontend + backend)
 - backend middleware verifies token
-- userId attached to requests for data isolation
 
-### 2. User-specific Data Handling
+### 2. User Data Isolation
 
-Each job entry is linked to a user:
+- each job linked to authenticated user
+- queries filtered by `userId`
+- prevents cross-user data access
 
-- users can only access their own data
-- backend queries filter by `userId`
-- prevents data leakage between accounts
-
-### 3. Custom Hooks Architecture
-
-Custom hooks manage logic separation:
+### 3. Custom Hooks
 
 - `useJobs` → CRUD + API integration
 - `useApplicationFilters` → search, filter, sort
 - `useJobForm` → form state and validation
 
-### 4. Derived State & Analytics
+### 4. Analytics
 
-Analytics are computed dynamically:
-
-- response rate calculation
-- status breakdown
+- total applications, interviews, offers, rejections
+- response count and response rate
 - latest activity tracking
 
-### 5. UI/UX Design Decisions
+### 5. UI/UX
 
-- minimal grayscale UI with clear hierarchy
+- clean grayscale UI with clear hierarchy
 - status-based color indicators
-- form validation and error feedback
-- consistent interaction patterns
+- responsive layout with sidebar navigation
+- empty states for new users
+- notes support for tracking details
+
+---
+
+## How to Use
+
+1. Register a new account
+2. Log in with your account
+3. Add job applications from the Applications page
+4. Update status, dates, and notes as your application progresses
+5. Review your dashboard and analytics for a summary of your job search activity
+
+All job data is user-specific, so each account only sees its own records.
 
 ---
 
@@ -168,8 +185,8 @@ Analytics are computed dynamically:
 Frontend
 
 ```bash
-git clone https://github.com/Joy-Juyoung/job-dashboard.git
-cd job-dashboard
+git clone https://github.com/Joy-Juyoung/jobflow.git
+cd jobflow
 ```
 
 ### 2. Install dependencies
@@ -195,9 +212,10 @@ Create a `.env` file inside the `/server` directory:
 MONGO_URI=your_mongodb_connection
 JWT_SECRET=your_secret_key
 PORT=5000
+CLIENT_URL=http://localhost:5173
 ```
 
-### 3. Run the application
+### 4. Run the application
 
 Backend
 
@@ -226,16 +244,40 @@ You can create a new account using the registration page.
 
 ## 🌐 Deployment
 
-Live demo: https://job-dashboard-steel-five.vercel.app/
+- Frontend: https://jobflow-steel-five.vercel.app
+- Backend: https://jobflow-backend-889f.onrender.com
+
+The backend includes a health check endpoint at `/api/health`.
+
+> If this is your first time using the app, register a new account and log in to start tracking your applications.
+
+---
+
+## 📡 API Overview
+
+### Auth
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+
+### Jobs
+
+- `GET /api/jobs`
+- `POST /api/jobs`
+- `PATCH /api/jobs/:id`
+- `DELETE /api/jobs/:id`
+
+All `/api/jobs` routes require a valid JWT token.
 
 ---
 
 ## 📌 Future Improvements
 
-- refresh token / auth persistence improvements
-- pagination for large datasets
-- better error handling UI
-- mobile UX optimization
+- refresh token / improved auth persistence
+- delete confirmation modal
+- pagination for larger datasets
+- improved error feedback UI
+- further mobile UX refinements
 
 ---
 

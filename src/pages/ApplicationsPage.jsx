@@ -54,15 +54,11 @@ function ApplicationsPage({ jobList, onAddJob, onUpdateJob, onDeleteJob }) {
       <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="text-sm font-medium text-gray-500">
-              Application Management
-            </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               Applications
             </h1>
             <p className="mt-3 text-sm text-gray-600">
-              Manage your full job application list with filters, search, edit,
-              and delete actions.
+              Manage your full job application list.
             </p>
           </div>
 

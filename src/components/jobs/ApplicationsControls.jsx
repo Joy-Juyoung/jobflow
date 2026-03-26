@@ -19,32 +19,23 @@ function ApplicationsControls({
           <h2 className="text-lg font-semibold text-gray-900">
             Application List
           </h2>
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-gray-500">
             {totalVisibleJobs} application{totalVisibleJobs !== 1 ? "s" : ""}{" "}
             found
           </p>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div className="flex items-center gap-2">
-            <label
-              htmlFor="sort-applications"
-              className="text-sm font-medium text-gray-600"
-            >
-              Sort
-            </label>
-
-            <select
-              id="sort-applications"
-              value={sortOption}
-              onChange={(event) => onSortChange(event.target.value)}
-              className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-gray-400"
-            >
-              <option value="latest-activity">Latest Activity</option>
-              <option value="newest-applied">Newest Applied</option>
-              <option value="oldest-applied">Oldest Applied</option>
-            </select>
-          </div>
+          <select
+            id="sort-applications"
+            value={sortOption}
+            onChange={(event) => onSortChange(event.target.value)}
+            className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-gray-400"
+          >
+            <option value="latest-activity">Latest Activity</option>
+            <option value="newest-applied">Newest Applied</option>
+            <option value="oldest-applied">Oldest Applied</option>
+          </select>
 
           <button
             type="button"

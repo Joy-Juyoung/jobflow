@@ -10,7 +10,7 @@ function RecentApplicationsSection({ recentJobs }) {
           <h2 className="text-lg font-semibold text-gray-900">
             Recent Applications
           </h2>
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-gray-500">
             Showing the 5 most recent job applications
           </p>
         </div>

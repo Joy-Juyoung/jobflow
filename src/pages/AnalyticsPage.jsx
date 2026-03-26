@@ -34,13 +34,11 @@ function AnalyticsPage({ analyticsSummary }) {
   return (
     <div className="space-y-8">
       <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-        <p className="text-sm font-medium text-gray-500">Insights Overview</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
           Analytics
         </h1>
         <p className="mt-3 max-w-2xl text-sm text-gray-600">
-          Review your application outcomes, response trends, and current status
-          distribution across the job search pipeline.
+          Application Trends & Status Overview.
         </p>
       </section>
 
@@ -52,7 +50,7 @@ function AnalyticsPage({ analyticsSummary }) {
           <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
             {totalApplications}
           </h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-xs text-gray-500">
             Total number of job applications currently tracked
           </p>
         </article>
@@ -62,7 +60,7 @@ function AnalyticsPage({ analyticsSummary }) {
           <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
             {responseRate}
           </h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-xs text-gray-500">
             Based on interview, offer, and rejected outcomes
           </p>
         </article>
@@ -73,7 +71,7 @@ function AnalyticsPage({ analyticsSummary }) {
           <h2 className="text-lg font-semibold text-gray-900">
             Status Distribution
           </h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-xs text-gray-500">
             Current breakdown of tracked applications by status
           </p>
 
@@ -106,7 +104,7 @@ function AnalyticsPage({ analyticsSummary }) {
           <h2 className="text-lg font-semibold text-gray-900">
             Status Breakdown
           </h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-xs text-gray-500">
             Detailed count of each application state
           </p>
 
@@ -147,7 +145,7 @@ function AnalyticsPage({ analyticsSummary }) {
           <h2 className="text-lg font-semibold text-gray-900">
             Response Insight
           </h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-xs text-gray-500">
             Applications that have moved beyond the pending stage
           </p>
 
@@ -176,7 +174,7 @@ function AnalyticsPage({ analyticsSummary }) {
           <h2 className="text-lg font-semibold text-gray-900">
             Timeline Highlights
           </h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-xs text-gray-500">
             Recent milestone dates from your application activity
           </p>
 

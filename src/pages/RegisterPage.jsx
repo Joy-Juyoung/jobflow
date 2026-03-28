@@ -149,7 +149,7 @@ function RegisterPage() {
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 title={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword ? (
+                {!showPassword ? (
                   <HiOutlineEyeSlash className="h-5 w-5" />
                 ) : (
                   <HiOutlineEye className="h-5 w-5" />

@@ -83,9 +83,9 @@ This project focuses on building a production-like application with REST API int
 
 ## ⚡ Challenges
 
-- Implemented user-specific data isolation using JWT authentication
-- Managed async API state and UI consistency
-- Designed scalable structure for CRUD and filtering logic
+- Handled edge cases in authentication and protected routes
+- Resolved UI inconsistencies caused by async API updates
+- Structured scalable logic for filtering, sorting, and data management
 
 ---
 

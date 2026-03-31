@@ -33,6 +33,10 @@ This project focuses on building a realistic full-stack application with authent
 
 ### 📊 Dashboard
 
+<p align="center">
+  <img src="./screenshots/dashboard.png" width="45%" />
+</p>
+
 - application summary cards
 - response tracking overview
 - recent applications preview
@@ -41,6 +45,10 @@ This project focuses on building a realistic full-stack application with authent
 ---
 
 ### 📁 Applications Management
+
+<p align="center">
+  <img src="./screenshots/applications.png" width="45%" />
+</p>
 
 - add, edit, and delete job applications
 - status tracking (`Applied`, `Interview`, `Offer`, `Rejected`)
@@ -52,6 +60,10 @@ This project focuses on building a realistic full-stack application with authent
 ---
 
 ### 📈 Analytics
+
+<p align="center">
+  <img src="./screenshots/analytics.png" width="45%" />
+</p>
 
 - application breakdown by status
 - response count and response rate
